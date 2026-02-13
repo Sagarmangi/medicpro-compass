@@ -65,7 +65,7 @@ export function LeadsTab() {
   }
 
   return (
-    <div className="space-y-4 animate-fade-in">
+    <div className="space-y-4">
       {/* Controls */}
       <div className="flex flex-col sm:flex-row gap-3 items-start sm:items-center justify-between">
         <div className="flex flex-col sm:flex-row gap-3 flex-1 w-full sm:w-auto">
@@ -75,14 +75,14 @@ export function LeadsTab() {
               type="text"
               value={search}
               onChange={e => handleSearchChange(e.target.value)}
-              placeholder="Search leads..."
-              className="w-full pl-9 pr-3 py-2 rounded-lg border border-border bg-card text-foreground text-sm focus:ring-2 focus:ring-ring outline-none placeholder:text-muted-foreground"
+              placeholder="Search by name, email, company..."
+              className="w-full pl-9 pr-3 py-2.5 rounded-xl border border-border bg-card text-foreground text-sm focus:ring-2 focus:ring-ring outline-none placeholder:text-muted-foreground shadow-sm transition-shadow focus:shadow-md"
             />
           </div>
           <select
             value={statusFilter}
             onChange={e => handleStatusChange(e.target.value)}
-            className="px-3 py-2 rounded-lg border border-border bg-card text-foreground text-sm focus:ring-2 focus:ring-ring outline-none"
+            className="px-3 py-2.5 rounded-xl border border-border bg-card text-foreground text-sm focus:ring-2 focus:ring-ring outline-none shadow-sm transition-shadow cursor-pointer"
           >
             <option value="all">All Statuses</option>
             {LEAD_STATUSES.map(s => (
@@ -96,7 +96,7 @@ export function LeadsTab() {
       </div>
 
       {/* Table */}
-      <div className="bg-card rounded-xl border border-border shadow-sm overflow-hidden">
+      <div className="bg-card rounded-2xl border border-border shadow-sm overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
