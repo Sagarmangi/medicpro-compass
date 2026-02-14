@@ -2,7 +2,8 @@ import { useState } from 'react';
 import { DashboardTab } from '@/components/crm/DashboardTab';
 import { LeadsTab } from '@/components/crm/LeadsTab';
 import { PartnersTab } from '@/components/crm/PartnersTab';
-import { BarChart3, Users, Handshake, Activity } from 'lucide-react';
+import { BarChart3, Users, Handshake, Activity, LogOut } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
 
 type Tab = 'dashboard' | 'leads' | 'partners';
 
@@ -14,7 +15,7 @@ const TABS: { id: Tab; label: string; icon: typeof BarChart3 }[] = [
 
 const Index = () => {
   const [activeTab, setActiveTab] = useState<Tab>('dashboard');
-
+  const { user, logout } = useAuth();
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
@@ -30,11 +31,25 @@ const Index = () => {
                 <span className="text-[10px] font-semibold text-primary uppercase tracking-widest leading-tight">CRM Dashboard</span>
               </div>
             </div>
-            <div className="hidden sm:flex items-center gap-2">
+            <div className="hidden sm:flex items-center gap-3">
               <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-success/10 border border-success/20">
                 <div className="w-1.5 h-1.5 rounded-full bg-success animate-pulse" />
                 <span className="text-xs font-medium text-success">Live</span>
               </div>
+              {user && (
+                <div className="flex items-center gap-2.5 text-sm">
+                  <span className="text-muted-foreground">
+                    {user.name} <span className="hidden lg:inline text-muted-foreground/60">({user.email})</span>
+                  </span>
+                  <button
+                    onClick={logout}
+                    className="flex items-center gap-1 text-muted-foreground hover:text-foreground transition-colors text-xs"
+                  >
+                    <LogOut className="h-3.5 w-3.5" />
+                    Sign Out
+                  </button>
+                </div>
+              )}
             </div>
           </div>
 
