@@ -52,7 +52,7 @@ export function DashboardTab() {
 
   useEffect(() => {
     fetchMetrics();
-    const interval = setInterval(() => fetchMetrics(), 60000);
+    const interval = setInterval(() => fetchMetrics(), 600000);
     return () => clearInterval(interval);
   }, [fetchMetrics]);
 
