@@ -13,6 +13,7 @@ export interface Lead {
   industry: string;
   website: string;
   linkedin?: string;
+  phone?: string;
   pain_point?: string;
   status: LeadStatus;
   campaign_name: string;
@@ -38,6 +39,8 @@ export interface Lead {
   meeting_duration?: string;
   meeting_done: boolean;
   deal_signed: boolean;
+  whatsapp_sent?: boolean;
+  whatsapp_sent_at?: string | null;
   created_at: string;
   updated_at: string;
 }
@@ -85,6 +88,8 @@ export interface Partner {
   position: string;
   industry: string;
   website: string;
+  linkedin?: string;
+  phone?: string;
   campaign_name: string;
   partner_since: string;
   partner_notes: string;
@@ -170,6 +175,41 @@ export async function updateStatus(email: string, status: LeadStatus, notes?: st
 
 export async function moveToPartner(email: string, partnerNotes: string) {
   return apiCall<{ message: string }>('move_to_partner', { email, partner_notes: partnerNotes });
+}
+
+export async function addLead(params: {
+  email: string; first_name: string; last_name?: string; company?: string;
+  position?: string; industry?: string; website?: string; linkedin?: string;
+  phone?: string; pain_point?: string; campaign_name?: string;
+}) {
+  return apiCall<{ message: string }>('add_lead', params);
+}
+
+export async function updateLeadInfo(email: string, fields: Partial<{
+  first_name: string; last_name: string; company: string; position: string;
+  industry: string; website: string; linkedin: string; phone: string; pain_point: string;
+}>) {
+  return apiCall<{ message: string }>('update_lead_info', { email, ...fields });
+}
+
+export async function toggleWhatsapp(email: string, whatsapp_sent: boolean) {
+  return apiCall<{ message: string; whatsapp_sent: boolean }>('toggle_whatsapp', { email, whatsapp_sent });
+}
+
+export async function addPartner(params: {
+  email: string; first_name: string; company: string; last_name?: string;
+  position?: string; industry?: string; website?: string; linkedin?: string;
+  phone?: string; campaign_name?: string; partner_notes?: string;
+}) {
+  return apiCall<{ message: string }>('add_partner', params);
+}
+
+export async function updatePartner(email: string, fields: Partial<{
+  first_name: string; last_name: string; company: string; position: string;
+  industry: string; website: string; linkedin: string; phone: string;
+  campaign_name: string; partner_notes: string;
+}>) {
+  return apiCall<{ message: string }>('update_partner', { email, ...fields });
 }
 
 // Helpers
