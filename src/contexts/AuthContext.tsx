@@ -90,8 +90,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         window.history.replaceState({}, '', window.location.pathname);
         try {
           const res = await verifyMagicLink(token);
-          if (res.success && res.session_id && res.user && res.expires_at) {
-            saveSession(res.session_id, res.user, res.expires_at);
+          if (res.success && res.session_id && res.user) {
+            // Fall back to 24h expiry if API doesn't return expires_at
+            const expiresAt = res.expires_at ?? new Date(Date.now() + 86400000).toISOString();
+            saveSession(res.session_id, res.user, expiresAt);
             setAuthenticated(res.user);
             startSessionCheck();
             return;
