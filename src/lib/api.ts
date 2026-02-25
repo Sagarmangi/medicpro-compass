@@ -46,6 +46,7 @@ export interface Lead {
 }
 
 export type LeadStatus =
+  | 'new_lead'
   | 'First_Email_Sent'
   | 'Followup_1_Sent'
   | 'Followup_2_Sent'
@@ -57,12 +58,13 @@ export type LeadStatus =
   | 'Lost';
 
 export const LEAD_STATUSES: LeadStatus[] = [
-  'First_Email_Sent', 'Followup_1_Sent', 'Followup_2_Sent',
+  'new_lead', 'First_Email_Sent', 'Followup_1_Sent', 'Followup_2_Sent',
   'Meeting_Booked', 'Meeting_Reminder_Sent', 'Meeting_Done',
   'Deal_Signed', 'Cold', 'Lost',
 ];
 
 export function formatStatus(status: string): string {
+  if (status === 'new_lead') return 'New Lead';
   return status.replace(/_/g, ' ');
 }
 
@@ -241,6 +243,7 @@ export function formatShortDate(dateStr: string | null): string {
 }
 
 export const STATUS_COLORS: Record<string, string> = {
+  new_lead: 'bg-muted text-muted-foreground border-border',
   First_Email_Sent: 'bg-info/15 text-info border-info/25',
   Followup_1_Sent: 'bg-primary/15 text-primary border-primary/25',
   Followup_2_Sent: 'bg-kpi-6/15 text-kpi-6 border-kpi-6/25',
