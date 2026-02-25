@@ -5,6 +5,7 @@ import { Loader2, ChevronDown } from 'lucide-react';
 
 // Color dot per status
 const STATUS_DOTS: Record<string, string> = {
+  new_lead: 'bg-muted-foreground',
   First_Email_Sent: 'bg-info',
   Followup_1_Sent: 'bg-primary',
   Followup_2_Sent: 'bg-kpi-6',
@@ -17,6 +18,7 @@ const STATUS_DOTS: Record<string, string> = {
 };
 
 const STATUS_LABELS: Record<string, string> = {
+  new_lead: 'New Lead',
   First_Email_Sent: 'First Email Sent',
   Followup_1_Sent: 'Followup 1 Sent',
   Followup_2_Sent: 'Followup 2 Sent',

@@ -13,12 +13,23 @@ const KPI_CONFIG = [
   { key: 'conversion', label: 'Lead → Meeting', icon: TrendingUp, gradient: 'kpi-gradient-6', color: 'text-kpi-6', iconBg: 'bg-kpi-6/15' },
 ];
 
-const PIPELINE_COLORS = [
+const PIPELINE_COLORS: Record<string, string> = {
+  new_lead: 'hsl(220, 10%, 60%)',
+  First_Email_Sent: 'hsl(213, 94%, 54%)',
+  Followup_1_Sent: 'hsl(239, 84%, 67%)',
+  Followup_2_Sent: 'hsl(271, 76%, 53%)',
+  Meeting_Booked: 'hsl(38, 92%, 50%)',
+  Meeting_Reminder_Sent: 'hsl(25, 95%, 53%)',
+  Meeting_Done: 'hsl(160, 84%, 39%)',
+  Deal_Signed: 'hsl(152, 69%, 40%)',
+  Cold: 'hsl(220, 10%, 50%)',
+  Lost: 'hsl(0, 72%, 51%)',
+};
+
+const EMAIL_CHART_COLORS = [
   'hsl(213, 94%, 54%)', 'hsl(239, 84%, 67%)', 'hsl(271, 76%, 53%)',
   'hsl(38, 92%, 50%)', 'hsl(25, 95%, 53%)', 'hsl(160, 84%, 39%)',
-  'hsl(152, 69%, 40%)', 'hsl(220, 10%, 60%)', 'hsl(0, 72%, 51%)',
 ];
-
 function getDefaultDateRange() {
   const to = new Date();
   const from = new Date();
@@ -70,7 +81,7 @@ export function DashboardTab() {
   };
 
   const pipelineData = metrics
-    ? Object.entries(metrics.pipeline.by_status).map(([name, value]) => ({ name: formatStatus(name), value }))
+    ? Object.entries(metrics.pipeline.by_status).map(([key, value]) => ({ key, name: formatStatus(key), value }))
     : [];
 
   const emailTypeData = metrics
@@ -222,8 +233,8 @@ export function DashboardTab() {
                 <YAxis type="category" dataKey="name" tick={{ fontSize: 10, fill: 'hsl(220, 10%, 46%)' }} width={115} axisLine={false} tickLine={false} />
                 <Tooltip contentStyle={{ background: 'hsl(0, 0%, 100%)', border: '1px solid hsl(220, 13%, 90%)', borderRadius: '12px', fontSize: 12, boxShadow: '0 8px 30px -4px rgba(0,0,0,0.1)' }} />
                 <Bar dataKey="value" name="Leads" radius={[0, 6, 6, 0]} barSize={18}>
-                  {pipelineData.map((_, i) => (
-                    <Cell key={i} fill={PIPELINE_COLORS[i % PIPELINE_COLORS.length]} />
+                  {pipelineData.map((entry, i) => (
+                    <Cell key={i} fill={PIPELINE_COLORS[entry.key] || 'hsl(220, 10%, 60%)'} />
                   ))}
                 </Bar>
               </BarChart>
@@ -252,7 +263,7 @@ export function DashboardTab() {
                   <div key={item.name} className="group">
                     <div className="flex items-center justify-between mb-1">
                       <div className="flex items-center gap-2">
-                        <div className="w-2 h-2 rounded-full" style={{ background: PIPELINE_COLORS[i % PIPELINE_COLORS.length] }} />
+                        <div className="w-2 h-2 rounded-full" style={{ background: EMAIL_CHART_COLORS[i % EMAIL_CHART_COLORS.length] }} />
                         <span className="text-xs font-medium text-foreground">{item.name}</span>
                       </div>
                       <span className="text-xs font-bold text-foreground">{item.value} <span className="font-normal text-muted-foreground">({pct}%)</span></span>
@@ -260,7 +271,7 @@ export function DashboardTab() {
                     <div className="h-1.5 w-full bg-muted rounded-full overflow-hidden">
                       <div
                         className="h-full rounded-full transition-all duration-700"
-                        style={{ width: `${pct}%`, background: PIPELINE_COLORS[i % PIPELINE_COLORS.length] }}
+                        style={{ width: `${pct}%`, background: EMAIL_CHART_COLORS[i % EMAIL_CHART_COLORS.length] }}
                       />
                     </div>
                   </div>
